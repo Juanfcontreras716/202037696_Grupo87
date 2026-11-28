@@ -6,3 +6,4 @@ rendimiento, normalizados bajo PEP 8.
 
 ## Integrantes y roles
 - Juan Fernando Contreras Herrera: Líder de Integración
+- Yamile Porras Daza: Auditora PEP 8.
