@@ -1,0 +1,63 @@
+# ESCENARIO 3: Consulta segura de registros Modbus TUF-2000M
+
+modbus_tuf = {
+    "0x01": {
+        "unit": "m3/h",
+        "multiplier": 0.1,
+        "modbus_type": "Holding"
+    },
+    "0x03": {
+        "unit": "m/s",
+        "multiplier": 0.01,
+        "modbus_type": "Input"
+    },
+    "0x09": {
+        "unit": "m3",
+        "multiplier": 1.0,
+        "modbus_type": "Holding"
+    }
+}
+
+nombres_registros = {
+    "caudal instantaneo": "0x01",
+    "flow rate": "0x01",
+    "velocidad del fluido": "0x03",
+    "velocity": "0x03",
+    "totalizador positivo": "0x09",
+    "positive accumulator": "0x09"
+}
+
+MAX_BUSQUEDAS = 5
+
+print("CONSULTA DE REGISTROS MODBUS - TUF-2000M")
+print("Ejemplos: 0x01, caudal instantaneo, velocity")
+
+for intento in range(1, MAX_BUSQUEDAS + 1):
+    consulta = input(
+        f"\nConsulta {intento}/{MAX_BUSQUEDAS}: "
+    ).strip().lower()
+
+    if modbus_tuf.get(consulta) is not None:
+        direccion = consulta
+    else:
+        direccion = nombres_registros.get(consulta)
+
+    datos = modbus_tuf.get(direccion) if direccion else None
+
+    if datos is not None:
+        print("\nREGISTRO ENCONTRADO")
+        print(f"Direccion: {direccion}")
+        print(f"Unidad de medida: {datos.get('unit', 'No disponible')}")
+        print(
+            f"Factor de escala: "
+            f"{datos.get('multiplier', 'No disponible')}"
+        )
+        print(
+            f"Tipo Modbus: "
+            f"{datos.get('modbus_type', 'No disponible')}"
+        )
+    else:
+        print("\nConsulta no valida: registro no encontrado.")
+        print("Intente con una direccion o un nombre de la lista.")
+
+print("\nFin del programa: se completaron las 5 busquedas.")
